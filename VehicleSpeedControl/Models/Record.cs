@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VehicleSpeedControl.Models
 {
+	/// <summary>
+	/// Represents database record.
+	/// </summary>
 	public class Record
 	{
 		public int Id { get; set; }

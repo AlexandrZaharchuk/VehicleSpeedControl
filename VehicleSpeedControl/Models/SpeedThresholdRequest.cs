@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace VehicleSpeedControl.Models
 {
+	/// <summary>
+	/// Represents request for the speed threshold on the specified date.
+	/// </summary>
 	public class SpeedThresholdRequest
 	{
 		[Required(ErrorMessage = "Поле обязательно для заполнения!")]

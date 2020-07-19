@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace VehicleSpeedControl.Models
 {
+	/// <summary>
+	/// Entity represents request of the minimal and maximal speed on the specified date.
+	/// </summary>
 	public class MinAndMaxByDateRequest
 	{
 		[Required(ErrorMessage = "Поле обязательно для заполнения!")]
