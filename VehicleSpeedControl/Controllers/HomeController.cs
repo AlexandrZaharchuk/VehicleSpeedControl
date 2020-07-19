@@ -10,7 +10,7 @@ namespace VehicleSpeedControl.Controllers
 	{
 		public ActionResult Index()
 		{
-			ViewBag.Title = "Home Page";
+			ViewBag.Title = "Система учета и контроля скоростного режима транспортных средств.";
 
 			return View();
 		}

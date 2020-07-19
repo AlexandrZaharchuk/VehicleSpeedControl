@@ -4,8 +4,12 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using LiteDB;
+using VehicleSpeedControl.Attributes;
 using VehicleSpeedControl.Models;
 
 namespace VehicleSpeedControl.Controllers
@@ -22,41 +26,61 @@ namespace VehicleSpeedControl.Controllers
 				Seed(LiteDb);
 		}
 	    
+	    /// <summary>
+		/// Creates new record in the database.
+		/// </summary>
+		/// <param name="record"></param>
+	    [HttpPost, ActionName("CreateRecord")]
+	    public void CreateRecord([FromBody]Record record)
+	    {
+		    LiteDb.Insert(record);
+	    }
+
+	    /// <summary>
+	    /// Returns records, which contains over speed values on specified date.
+	    /// </summary>
+	    /// <param name="date"> Date constraint. </param>
+	    /// <param name="speed"> Speed constraint. </param>
+	    /// <returns></returns>
+	    [RequestTimeValidation]
+	    [HttpGet, ActionName("SpeedThreshold")]
+	    public IEnumerable<Record> SpeedThreshold([FromUri]DateTime date, double speed)
+	    {
+		    return LiteDb.Query<Record>()
+			    .Where(x => x.RegistrationTime.Date == date && x.VehicleSpeed > speed)
+			    .ToEnumerable();
+	    }
+	    
+	    /// <summary>
+		/// Returns records, which contains minimal and maximal speed values, registered on specified date.
+		/// </summary>
+		/// <param name="date">Date constraint.</param>
+		/// <returns></returns>
+	    [RequestTimeValidation]
 	    [HttpGet, ActionName("GetMinAndMaxByDate")]
 		public IEnumerable<Record> GetMinAndMaxByDate(DateTime date)
-		{
-			var recordsByDate = LiteDb.Query<Record>()
-				.Where(x => x.RegistrationTime.Date == date.Date)
-				.OrderBy(y => y.VehicleSpeed)
-				.ToList();
-			return new List<Record> {recordsByDate.First(), recordsByDate.Last()};
-		}
+	    {
+		    List<Record> recordsByDate = new List<Record>();
+		    if (date != DateTime.MinValue)
+		    {
+			    recordsByDate = LiteDb.Query<Record>()
+				    .Where(x => x.RegistrationTime.Date == date.Date)
+				    .OrderBy(y => y.VehicleSpeed)
+				    .ToList();
+			    return new List<Record> {recordsByDate.First(), recordsByDate.Last()};
+		    }
+		    return recordsByDate;
+	    }
 
-        [HttpPost, ActionName("CreateRecord")]
-        public void CreateRecord([FromBody]Record record)
-        {
-	        LiteDb.Insert(record);
-        }
-
-        [HttpGet, ActionName("SpeedThreshold")]
-        public IEnumerable<Record> SpeedThreshold([FromBody]SpeedThreshold speedThreshold)
-        {
-	        return LiteDb.Query<Record>()
-		        .Where(x => x.RegistrationTime.Date == speedThreshold.RegistrationDate.Date && 
-		                    x.VehicleSpeed > speedThreshold.Speed)
-		        .ToEnumerable();
-        }
-
-        [HttpGet, ActionName("GetAll")]
+		//TODO: Should be deleted in final version!
+        [RequestTimeValidation]
+		[HttpGet, ActionName("GetAll")]
         public IEnumerable<Record> GetAll()
         {
-	        if(IsServiceTime())
-		        return LiteDb.Query<Record>().ToEnumerable();
-	        return BadRequest("В данное время запросы не могут быть обработаны!");
-
+	        return LiteDb.Query<Record>().ToEnumerable();
         }
 
-        private void Seed(LiteRepository db)
+		private void Seed(LiteRepository db)
         {
 	        var records = new List<Record>()
 	        {
@@ -75,21 +99,21 @@ namespace VehicleSpeedControl.Controllers
 	        db.Insert<Record>(records);
         }
 
-        private bool IsServiceTime()
-        {
-			var startServiceSettings = ConfigurationManager.AppSettings["StartRequestService"];
-			var finishServiceSettings = ConfigurationManager.AppSettings["FinishRequestService"];
+   //     private bool IsServiceTime()
+   //     {
+			//var startServiceSettings = ConfigurationManager.AppSettings["StartRequestService"];
+			//var finishServiceSettings = ConfigurationManager.AppSettings["FinishRequestService"];
 
-			var startServiceTime = DateTime.ParseExact(startServiceSettings, "H:mm", CultureInfo.InvariantCulture);
-			var finishServiceTime = DateTime.ParseExact(finishServiceSettings, "H:mm", CultureInfo.InvariantCulture);
+			//var startServiceTime = DateTime.ParseExact(startServiceSettings, "H:mm", CultureInfo.InvariantCulture);
+			//var finishServiceTime = DateTime.ParseExact(finishServiceSettings, "H:mm", CultureInfo.InvariantCulture);
 
-			var currentTime = DateTime.Now;
+			//var currentTime = DateTime.Now;
 
-			var a = DateTime.Compare(startServiceTime, currentTime);
-			var b = DateTime.Compare(currentTime, finishServiceTime);
+			//var a = DateTime.Compare(startServiceTime, currentTime);
+			//var b = DateTime.Compare(currentTime, finishServiceTime);
 
-			if ( a < 0 && b < 0) return true;
-			return false;
-        }
+			//if ( a < 0 && b < 0) return true;
+			//return false;
+   //     }
     }
 }
