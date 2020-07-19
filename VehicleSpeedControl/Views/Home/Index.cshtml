@@ -1,24 +1,40 @@
 ﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Система учета и контроля скоростного режима транспортных средств</h1>
+    <p class="lead">Данное тестовое задание было реализовано с помощью Web API и однофайловой без серверной NoSql базы данных LiteDB.</p>
+    <p><a href="https://www.litedb.org" class="btn btn-primary btn-lg">Узнать больше &raquo;</a></p>
+    <p>
+        Для удобства тестирования работоспособности проекта, реализовано четыре примитивных страницы, с помощью которых можно выполнять запросы к сервису.<br />
+        Помимо этого, запросы так же можно отправлять с помощью сторонних приложений, поддерживающих отправку POST и GET (Fidler, Postman и др.) на адрес<br />
+        http://localhost:55777/api/records/ <br />
+        После /api/records/, необходимо указать требуемое действие и параметры (если требуется). <br />
+        Например: http://localhost:55777/api/records/GetAll <br />
+    </p>
+    <p></p>
 </div>
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+        <h2>Добавление новых записей</h2>
+        <p>
+            На данной странице предоставляется возможность добавления новых записей в базу.
+            По умолчанию, при первом запуске приложения, создается новая база и автоматически
+            заполняется тестовыми записями. При желании - можно продолжать добавлять свои.
+            При повторном запуске приложения база не удаляется, данные сохраняются.
+        </p>
+        <p><a class="btn btn-default" href="http://localhost:55777/DataInput/CreateRecordRequest">Добавить новую запись &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+        <h2>Просмотреть записи в БД</h2>
+        <p>Данная страница представляет собой простой список всех записей в БД.</p>
+        <p><a class="btn btn-default" href="http://localhost:55777/DataInput">Просмотреть записи &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+        <h2>Запрос на превышение скорости</h2>
+        <p>На этой странице можно выполнить запрос к сервису для получения данных о превышении скорости за указанную дату.</p>
+        <p><a class="btn btn-default" href="http://localhost:55777/DataInput/SpeedThresholdRequest">Выполнить запрос &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Запрос минимальной и максимальной скорости</h2>
+        <p>Эта страница предоставляет функциональность для запроса максимальной и минимальной скорости за указанную дату.</p>
+        <p><a class="btn btn-default" href="http://localhost:55777/DataInput/MinAndMaxByDateRequest">Выполнить запрос &raquo;</a></p>
     </div>
 </div>

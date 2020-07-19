@@ -1,0 +1,44 @@
+﻿@model IEnumerable<VehicleSpeedControl.Models.Record>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Список записей в базе</h2>
+
+<p>
+    @Html.ActionLink("Создать новую запись", "CreateRecordRequest")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RegistrationTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleLicensePlate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleSpeed)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleLicensePlate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleSpeed)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="footerLinks">
+    @Html.ActionLink("На главную", "Index", "Home")
+</div>
